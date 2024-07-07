@@ -1,0 +1,129 @@
+<!-- component_library/templates/components/audio_chat.html -->
+{% extends "shared/_base.html" %}
+{% block content %}
+    <div class="flex flex-col justify-center bg-slate-900 p-4">
+        <div class="col-span-4 mx-auto p-4 container">
+            <div class="mb-4">
+                <h1 class="mb-4 font-bold text-2xl text-white">Tranlsations</h1>
+                <p>Translate any text or audio file to almost any language</p>
+                <div class="mb-4">
+                    <div id="sourceLanguageDropdown" class="mb-4">
+                        <h2 class="mb-2 font-semibold text-xl">Select Source Language</h2>
+                        {% block sourceLanguageDropdown %}
+                            {% include "components/sourceLanguageDropdown.html" %}
+                        {% endblock %}
+                    </div>
+                    <div id="targetLanguageDropdown" class="mb-4">
+                        <h2 class="mb-2 font-semibold text-xl">Select Target Language</h2>
+                        {% block targetLangaugeDropdown %}
+                            {% include "components/targetLanguageDropdown.html" %}
+                        {% endblock %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="flex flex-col justify-center bg-slate-900">
+            <div class="col-span-4 mx-auto p-4 container">
+                <div id="inputContainer" class="mb-4">
+                    <div class="mb-4">
+                        {% block inputModeDropdown %}
+                            {% include "components/inputModeDropdown.html" %}
+                        {% endblock %}
+                    </div>
+                    {% block inputContent %}
+                        {% include "components/inputContent.html" %}
+                    {% endblock %}
+                </div>
+            </div>
+            <div class="col-span-8 mx-auto p-4 w-full container">
+                <div id="outputContainer" class="mb-4">
+                    <div class="mb-4">
+                        {% block outputModeDropdown %}
+                            {% include "components/outputModeDropdown.html" %}
+                        {% endblock %}
+                    </div>
+                    {% block outputContent %}
+                        {% include "components/outputContent.html" %}
+                    {% endblock %}
+                </div>
+            </div>
+            <div id="translateButtonContainer" class="mb-4">
+                {% block translateButton %}
+                    {% include "components/translateButton.html" %}
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+
+    // File drag and drop
+    const dropZone = document.getElementById('dropZone');
+    const fileInput = document.getElementById('fileInput');
+
+    dropZone.addEventListener('click', () => fileInput.click());
+
+    dropZone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        dropZone.classList.add('bg-gray-100');
+    });
+
+    dropZone.addEventListener('dragleave', () => {
+        dropZone.classList.remove('bg-gray-100');
+    });
+
+    dropZone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropZone.classList.remove('bg-gray-100');
+        handleFiles(e.dataTransfer.files);
+    });
+
+    fileInput.addEventListener('change', (e) => {
+        handleFiles(e.target.files);
+    });
+
+    function handleFiles(files) {
+        for (const file of files) {
+            if (file.type.startsWith('audio/') || file.type.startsWith('video/')) {
+                const formData = new FormData();
+                formData.append('file', file);
+
+                fetch('/uploadAudio', {
+                    method: 'POST',
+                    body: formData
+                }).then(response => response.json())
+                  .then(data => console.log(data));
+            }
+        }
+    }
+    </script>
+    <script>
+        document.getElementById('translateButton').addEventListener('click', function(event) {
+          event.preventDefault();
+          
+          var textInputArea = document.getElementById('textInputArea') ? document.getElementById('textInputArea').value : '';
+          var inputModeOptions = document.getElementById('inputModeOptions') ? document.getElementById('inputModeOptions').value : '';
+          var outputModeOptions = document.getElementById('outputModeOptions') ? document.getElementById('outputModeOptions').value : '';
+          var sourceLanguageOptions = document.getElementById('sourceLanguageOptions') ? document.getElementById('sourceLanguageOptions').value : '';
+          var targetLanguageOptions = document.getElementById('targetLanguageOptions') ? document.getElementById('targetLanguageOptions').value : '';
+        
+          console.log('Sending translation request:', {
+            textInputArea,
+            inputModeOptions,
+            outputModeOptions,
+            sourceLanguageOptions,
+            targetLanguageOptions
+          });
+        
+          htmx.ajax('POST', '/translate', {
+            target: '#outputContent',
+            swap: 'innerHTML',
+            values: {
+              textInputArea: textInputArea,
+              inputModeOptions: inputModeOptions,
+              outputModeOptions: outputModeOptions,
+              sourceLanguageOptions: sourceLanguageOptions,
+              targetLanguageOptions: targetLanguageOptions
+            }
+          });
+        });
+    </script>  
+{% endblock %}

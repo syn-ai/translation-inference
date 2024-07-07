@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" class="w-full">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Eden Mining Operations GUI</title>
+    <script src="https://unpkg.com/htmx.org"></script>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.4.23/dist/full.min.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+
+  <body class="flex justify-center items-center col-span-6 bg-gradient-to-r from-cyan-7000 via-cyan-700 via-emerald-600 via-sky-800 to-sky-700 h-full">
+    <div id="content w-full">
+      {% block content %}
+
+      {% endblock %}
+    </div>
+    <script>
+      document.addEventListener('htmx:beforeOnLoad', function (event) {
+        document.querySelectorAll('.tab').forEach(function (tab) {
+          tab.classList.remove('bg-slate-700')
+          tab.classList.add('bg-slate-900')
+        })
+        event.add('bg-slate-500')
+      })
+    </script>
+  </body>
+</html>

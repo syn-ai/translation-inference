@@ -1,0 +1,10 @@
+{% block outputModeDropdown %}
+  <!-- Middle Column -->
+  <select id="outputModeOptions" name="outputModeOptions"
+  class="bg-gradient-to-r from-cyan-700 via-cyan-800 via-emerald-800 via-sky-700 to-sky-700 m-2 p-2 rounded w-full text-white"
+  hx-get="/outputModeOptions" hx-trigger="change" hx-target="#outputContent">
+<option value="">--Select output mode--</option>
+<option value="text">Text</option>
+<option value="audio">Audio</option>
+</select>
+{% endblock %}
