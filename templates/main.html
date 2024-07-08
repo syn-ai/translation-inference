@@ -37,50 +37,6 @@
         {% endblock %}
     </div>
 </div>
-
-
-
-<script>
-    // File drag and drop
-    const dropZone = document.getElementById('dropZone');
-    const fileInput = document.getElementById('fileInput');
-
-    dropZone.addEventListener('click', () => fileInput.click());
-
-    dropZone.addEventListener('dragover', (e) => {
-        e.preventDefault();
-        dropZone.classList.add('bg-gray-100');
-    });
-
-    dropZone.addEventListener('dragleave', () => {
-        dropZone.classList.remove('bg-gray-100');
-    });
-
-    dropZone.addEventListener('drop', (e) => {
-        e.preventDefault();
-        dropZone.classList.remove('bg-gray-100');
-        handleFiles(e.dataTransfer.files);
-    });
-
-    fileInput.addEventListener('change', (e) => {
-        handleFiles(e.target.files);
-    });
-
-    function handleFiles(files) {
-        for (const file of files) {
-            if (file.type.startsWith('audio/') || file.type.startsWith('video/')) {
-                const formData = new FormData();
-                formData.append('file', file);
-
-                fetch('/uploadAudio', {
-                    method: 'POST',
-                    body: formData
-                }).then(response => response.json())
-                    .then(data => console.log(data));
-            }
-        }
-    }
-</script>
 <script>
     document.getElementById('translateButton').addEventListener('click', function (event) {
         event.preventDefault();

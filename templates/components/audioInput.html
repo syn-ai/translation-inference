@@ -4,9 +4,9 @@
         <h2 class="mb-2 font-semibold text-xl">Audio Input</h2>
         <div class="flex justify-center">
             <div class="w-full">
-                <button id="startRecording" class="bg-blue-500 hover:bg-blue-700 px-4 py-2 rounded font-bold text-white">
-                    Start Recording
-                </button>
+                {% block startRecording %}
+                    {% include "components/startRecording.html" %}
+                {% endblock %}
             </div>
             <div class="w-full">
                 {% block dropZone %}
