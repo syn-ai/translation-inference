@@ -35,7 +35,7 @@
                     targetLanguageOptions: targetLanguageOptions
                 }
     
-                fetch('/send-audio', {
+                fetch('/translate', {
                     method: 'POST',
                     body: values,
                 }).then(response => response.json())

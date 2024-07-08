@@ -14,14 +14,14 @@ AUDIO_SOURCE = "static/audio/output.wav"
 @router.post("/translate-audio")
 async def send_audio(
     request: Request,
-    audio_data: bytes = File(...), 
+    audioData: bytes = File(...), 
     outputModeOptions: str = Form(default=''),
     targetLanguageOptions: str = Form(default=''),
     sourceLanguageOptions: str = Form(default='')
 ):
     task_string = "speech2text" if outputModeOptions == "text" else "text2speech"
     response = process_audio_request(
-        audio_data,
+        audioData,
         task_string,
         sourceLanguageOptions,
         targetLanguageOptions
