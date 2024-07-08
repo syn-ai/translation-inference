@@ -6,42 +6,4 @@
             Your browser does not support the audio element.
         </audio>
     </div>
-    <script>
-        // Audio recording
-        let mediaRecorder;
-        let audioChunks = [];
-    
-        document.getElementById('startRecording').addEventListener('click', async () => {
-            const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-            mediaRecorder = new MediaRecorder(stream);
-            
-            mediaRecorder.ondataavailable = (event) => {
-                audioChunks.push(event.data);
-            };
-    
-            mediaRecorder.onstop = () => {
-                const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
-                const formData = new FormData();
-                formData.append('audio_data', audioBlob);
-    
-                fetch('/send-audio', {
-                    method: 'POST',
-                    body: formData
-                }).then(response => response.json())
-                  .then(data => console.log(data));
-    
-                audioChunks = [];
-            };
-    
-            mediaRecorder.start();
-            document.getElementById('startRecording').style.display = 'none';
-            document.getElementById('stopRecording').style.display = 'inline-block';
-        });
-    
-        document.getElementById('stopRecording').addEventListener('click', () => {
-            mediaRecorder.stop();
-            document.getElementById('startRecording').style.display = 'inline-block';
-            document.getElementById('stopRecording').style.display = 'none';
-        });
-    </script>
 {% endblock %}
