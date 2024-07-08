@@ -15,7 +15,19 @@ TASK_STRINGS = [
 ]
 
 TARGET_LANGUAGES = [
+    "--Select Language--",
     "English",
+    "Cantonese",
+    "French",
+    "German",
+    "Hindi",
+    "Italian",
+    "Japanese",
+    "Korean",
+    "Mandarin Chinese",
+    "Russian",
+    "Spanish",
+    "---",
     "Afrikaans",
     "Amharic",
     "Armenian",
@@ -27,7 +39,6 @@ TARGET_LANGUAGES = [
     "Bosnian",
     "Bulgarian",
     "Burmese",
-    "Cantonese",
     "Catalan",
     "Cebuano",
     "Central",
@@ -39,29 +50,23 @@ TARGET_LANGUAGES = [
     "Egyptian Arabic",
     "Estonian",
     "Finnish",
-    "French",
     "Galician",
     "Ganda",
     "Georgian",
-    "German",
     "Gujarati",
     "Halh Mongolian",
     "Hebrew",
-    "Hindi",
     "Hungarian",
     "Icelandic",
     "Igbo",
     "Indonesian",
     "Irish",
-    "Italian",
-    "Japanese",
     "Javanese",
     "Kabuverdianu",
     "Kamba",
     "Kannada",
     "Kazakh",
     "Khmer",
-    "Korean",
     "Kyrgyz",
     "Lao",
     "Lithuanian",
@@ -71,7 +76,6 @@ TARGET_LANGUAGES = [
     "Maithili",
     "Malayalam",
     "Maltese",
-    "Mandarin Chinese",
     "Mandarin Chinese Hant",
     "Marathi",
     "Meitei",
@@ -90,7 +94,6 @@ TARGET_LANGUAGES = [
     "Portuguese",
     "Punjabi",
     "Romanian",
-    "Russian",
     "Serbian",
     "Shona",
     "Sindhi",
@@ -98,7 +101,6 @@ TARGET_LANGUAGES = [
     "Slovenian",
     "Somali",
     "Southern Pashto",
-    "Spanish",
     "Standard Latvian",
     "Standard Malay",
     "Swahili",
@@ -124,10 +126,6 @@ TARGET_LANGUAGES = [
 async def get_languages(request: Request):
     lines = []
     for option in TARGET_LANGUAGES:
-        lines.append(f"<option value=\"{option}\">{option}</option>")
+        lines.append(f'<option class="block bg-cyan-200 hover:bg-cyan-400 dark:hover:bg-cyan-700 dark:bg-cyan-600 px-4 py-2 rounded-t whitespace-no-wrap" value=\"{option}\">{option}</option>')
         
     return {"target_languages": "\n".join(lines)}
-
-@router.get("/tasks")
-async def get_task_string(request: Request):
-    return {"task": task}

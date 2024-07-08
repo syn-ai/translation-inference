@@ -1,10 +1,10 @@
 {% block inputModeDropdown %}
   <!-- Middle Column -->
   <select id="inputModeOptions" name="inputModeOptions"
-  class="bg-gradient-to-r from-cyan-700 via-cyan-800 via-emerald-800 via-sky-700 to-sky-700 m-2 p-2 rounded w-full text-white"
+ class="inline-flex items-center bg-indigo-300 hover:bg-indigo-400 dark:bg-indigo-500 px-4 py-2 rounded w-full font-semibold text-gray-200 dark:text-white"
   hx-get="/inputModeOptions" hx-trigger="change" hx-target="#inputContent">
-<option value="">--Select input mode--</option>
-<option value="text">Text</option>
-<option value="audio">Audio</option>
+<option class="block bg-indigo-200 hover:bg-indigo-400 dark:hover:bg-indigo-500 dark:bg-indigo-600 px-4 py-2 rounded-t whitespace-no-wrap"  value="">--Select input mode--</option>
+<option class="block bg-indigo-200 hover:bg-indigo-400 dark:hover:bg-indigo-500 dark:bg-indigo-600 px-4 py-2 whitespace-no-wrap" value="text">Text</option>
+<option class="block bg-indigo-200 hover:bg-indigo-400 dark:hover:bg-indigo-500 dark:bg-indigo-600 px-4 py-2 rounded-b whitespace-no-wrap" value="audio">Audio</option>
 </select>
 {% endblock %}

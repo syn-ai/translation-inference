@@ -1,14 +1,16 @@
 {% block translateButton %}
-  <section class="bg-slate-900 shadow rounded-md w-full">
-    <div class="mt-4 p-4 rounded-md w-full spacey-y-2">
-      <button 
-      id="translateButton"
-      class="bg-gradient-to-r from-cyan-700 via-cyan-800 via-emerald-800 via-sky-700 to-sky-700 m-2 p-2 rounded w-full text-white">
-      <!--hx-post="/translate"
-      hx-trigger="click"
-      hx-include="#textInputArea, #inputModeOptions, #outputModeOptions, #sourceLanguageOptions, #targetLanguageOptions"
-      hx-target="#outputContent">-->
-      Translate</button>
+<div class="w-full container">
+  <div class="flex flex-wrap justify-evenly content-center bg-slate-900">
+      <div class="inline-flex relative group">
+    <div
+    class="absolute -inset-px group-hover:-inset-1 bg-gradient-to-r from-[#44BCFF] via-[#FF44EC] to-[#FF675E] opacity-70 group-hover:opacity-100 blur-lg transitiona-all animate-tilt duration-1000 group-hover:duration-200">
     </div>
-  </section>
+      <button id="translateButton"
+        href="#translateButton" title="Translate"
+        class="inline-flex relative justify-center items-center bg-black px-8 py-4 rounded-md font-bold font-pj text-lg text-white transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900"
+        role="button">Translate
+  </button>
+      </div>
+  </div>
+</div>
 {% endblock %}
