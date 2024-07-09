@@ -33,7 +33,7 @@ def process_audio_request(
     logger.debug(audioData)
     return {
         "data": {
-            "input": audioData['file'],
+            "input": audioData,
             "task_string": task_string,
             "target_language": target_language,
             "source_language": source_language,

@@ -27,7 +27,13 @@ async def get_translate(
 ):
     print(f"Received form data: textInputArea={textInputArea}, inputModeOptions={inputModeOptions}, outputModeOptions={outputModeOptions}, sourceLanguageOptions={sourceLanguageOptions}, targetLanguageOptions={targetLanguageOptions}")
     task_string = ""        
-    if inputModeOptions == "audio":
+    
+    if not inputModeOptions:
+        if outputModeOptions == "text":
+            task_string = "speech2text"
+        elif outputModeOptions == "audio":
+            task_string = "speech2speech"
+    elif inputModeOptions == "audio":
         if outputModeOptions == "audio":
             task_string = "speech2speech"
         elif outputModeOptions == "text":
@@ -37,6 +43,7 @@ async def get_translate(
             task_string = "text2text"
         elif outputModeOptions == "audio":
             task_string = "text2speech"
+
     data_request = None
     if task_string.startswith("speech"):
         data_request = process_audio_request(audioData.file, task_string, sourceLanguageOptions, targetLanguageOptions)
