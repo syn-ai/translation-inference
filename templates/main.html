@@ -3,15 +3,19 @@
 {% block content %}
 <div class="flex flex-wrap justify-evenly content-center bg-slate-900 p-4 rounded-lg w-full h-full">
     <h1 class="flex flex-col justify-center mb-4 font-bold text-2xl text-white item">Translations</h1>
-    <div class="flex justify-center items-center mx-auto p-4 rounded-sm w-full container">
-        <p class="mb-2 p-2 w-1/4 text-l text-white"><b>Source</b></p>
-        {% block sourceLanguageDropdown %}
-        {% include "components/sourceLanguageDropdown.html" %}
-        {% endblock %}
-        <p class="mb-2 p-2 w-1/4 text-l text-white"><b>Target</b></p>
-        {% block targetLangaugeDropdown %}
-        {% include "components/targetLanguageDropdown.html" %}
-        {% endblock %}
+    <div class="flex flex-col sm:flex-row justify-center items-center mx-auto p-4 rounded-sm w-full container gap-2">
+        <div class="flex flex-col">
+            <p class="p-2 w-1/4 text-l text-white font-bold">Source</p>
+            {% block sourceLanguageDropdown %}
+            {% include "components/sourceLanguageDropdown.html" %}
+            {% endblock %}
+        </div>
+        <div class="flex flex-col">
+            <p class="p-2 w-1/4 text-l text-white justify-center font-bold">Target</p>
+            {% block targetLangaugeDropdown %}
+            {% include "components/targetLanguageDropdown.html" %}
+            {% endblock %}
+        </div>
     </div>
     <div id="inputContainer" class="flex flex-col justify-center mb-2 w-full">
         <p class="mb-2 p-1 text-l text-white"><b>Input</b></p>

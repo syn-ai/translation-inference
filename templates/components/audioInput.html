@@ -2,18 +2,24 @@
 <div class="col-span-8 mx-auto p-4 w-full container">
     <div id="audioInputContainer">
         <h2 class="mb-2 font-semibold text-xl">Audio Input</h2>
-        <div class="flex justify-center">
-            <div class="w-full">
+        <div class="flex justify-center flex-col sm:flex-row gap-2">
                 {% block startRecording %}
                     {% include "components/startRecording.html" %}
                 {% endblock %}
-            </div>
-            <div class="w-full">
                 {% block dropZone %}
                     {% include "components/dropZone.html" %}
                 {% endblock %}
-            </div>
         </div>
+  <!-- <div id="audioInputContainer">
+    <h2 class="mb-2 font-semibold text-xl">Audio Input</h2>
+    <div class="flex justify-center flex-col sm:flex-row gap-2">
+        <button
+          id="startRecording"
+          class="bg-blue-500 hover:bg-blue-700 px-4 py-2 rounded font-bold text-white"
+        >
+          <img src="/assets/microphone.svg" alt="Microphone" class="mx-auto" />
+        </button> -->
     </div>
+  </div>
 </div>
 {% endblock %}
