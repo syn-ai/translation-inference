@@ -20,7 +20,7 @@ async def get_translate(
     request: Request, 
     textInputArea: Optional[str] = Form(default=None),
     audioData=File(default=None),
-    inputModeOptions: str = Form(...),
+    inputModeOptions: str = Form(default=None),
     outputModeOptions: str = Form(...),
     sourceLanguageOptions: str = Form(...),
     targetLanguageOptions: str = Form(...)

@@ -27,7 +27,7 @@
     function getOptions() {
         return {
         textInputArea:getElementById("textInputArea")?.value || "",
-        inputModeOptions: "audio",
+        inputModeOptions: getElementById("#inputModeOptions")?.value || "",
         outputModeOptions:
             document.getElementById("#outputModeOptions")?.value || "",
         sourceLanguageOptions:
