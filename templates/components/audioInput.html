@@ -3,12 +3,12 @@
     <div id="audioInputContainer">
         <h2 class="mb-2 font-semibold text-xl">Audio Input</h2>
         <div class="flex justify-center">
-            <div class="w-full">
+            <div class="w-full p-2">
                 {% block startRecording %}
-                    {% include "components/startRecording.html" %}
+                    {% include "components/recordingContainer.html" %}
                 {% endblock %}
             </div>
-            <div class="w-full">
+            <div class="w-full p-2">
                 {% block dropZone %}
                     {% include "components/dropZone.html" %}
                 {% endblock %}

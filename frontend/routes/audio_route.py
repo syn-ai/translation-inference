@@ -1,5 +1,6 @@
 from fastapi import APIRouter, Request, File, Form
 from fastapi.templating import Jinja2Templates
+from loguru import logger
 
 
 from frontend.routes.process_audio import process_audio_request, process_audio_response
@@ -11,14 +12,15 @@ templates = Jinja2Templates(directory="templates")
 
 AUDIO_SOURCE = "static/audio/output.wav"
 
-@router.post("/translate-audio")
+@router.post("/uploadAudio")
 async def send_audio(
     request: Request,
-    audioData: bytes = File(...), 
+    audioData: bytes = Form(...), 
     outputModeOptions: str = Form(default=''),
     targetLanguageOptions: str = Form(default=''),
     sourceLanguageOptions: str = Form(default='')
 ):
+    logger.debug(f"Audio data: {audioData}")
     task_string = "speech2text" if outputModeOptions == "text" else "text2speech"
     response = process_audio_request(
         audioData,

@@ -18,7 +18,7 @@ router = APIRouter()
 async def get_translate(
     request: Request, 
     textInputArea: Optional[str] = Form(default=''),
-    audioData: Optional[bytes] = File(default=None),
+    audioData: Optional[bytes] = Form(default=None),
     inputModeOptions: str = Form(default=''),
     outputModeOptions: str = Form(default=''),
     sourceLanguageOptions: str = Form(default=''),

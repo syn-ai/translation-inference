@@ -31,11 +31,9 @@ def process_audio_request(
     target_language = targetLanguageOptions.replace("\\", "").replace("\"", "")
     source_language = sourceLanguageOptions.replace("\\", "").replace("\"", "")
     logger.debug(f"Audio data: {audioData}")
-    audio_data = speech_output_to_base64(speech_output_to_base64=audioData)
-    logger.info(f"Audio data: {audio_data}")
     return {
         "data": {
-            "input": audio_data,
+            "input": audioData,
             "task_string": task_string,
             "target_language": target_language,
             "source_language": source_language,

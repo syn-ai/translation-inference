@@ -1,21 +1,31 @@
 {% block dropZone %}
     <h2>Drop File</h2>
     <div id="dropZone"
-         class="border-2 border-gray-300 p-4 border-dashed rounded-lg text-center">
+         class="border-2 border-gray-300 p-4 border-dashed rounded-lg text-center"
+         hx-target="#uploadResult"
+         hx-encoding="multipart/form-data"
+         hx-trigger="htmx:afterOnLoad"
+         hx-indicator="#loading">
         <h2 class="mb-2 font-semibold text-xl">File Upload</h2>
         <p>Drag and drop audio or text files here or click to select</p>
         <input type="file"
                id="fileInput"
+               name="audioData"
                class="hidden"
                accept=".mp3,.wav,.mkv,.mp4,.txt"
                multiple>
     </div>
 
+    <div id="loading" class="htmx-indicator">
+        Uploading...
+    </div>
+
+    <div id="uploadResult"></div>
 
     <script>
         // File drag and drop
         const dropZone = document.getElementById('dropZone');
-        const fileInput = document.getElementById('fileInput');
+        const fileInput = document.getElementById('uploadResult');
     
         dropZone.addEventListener('click', () => fileInput.click());
     
@@ -37,20 +47,32 @@
         fileInput.addEventListener('change', (e) => {
             handleFiles(e.target.files);
         });
-    
+
+        function getOptions() {
+            return {
+                outputModeOptions: document.getElementById('outputModeOptions')?.value || '',
+                sourceLanguageOptions: document.getElementById('sourceLanguageOptions')?.value || '',
+                targetLanguageOptions: document.getElementById('targetLanguageOptions')?.value || ''
+            };
+        }
+
         function handleFiles(files) {
+            const formData = new FormData(dropZone);
+            const options = getOptions();
+
             for (const file of files) {
                 if (file.type.startsWith('audio/') || file.type.startsWith('video/')) {
-                    const formData = new FormData();
-                    formData.append('file', file);
-    
-                    fetch('/uploadAudio', {
-                        method: 'POST',
-                        body: formData
-                    }).then(response => response.json())
-                        .then(data => console.log(data));
+                    formData.append('audioData', file);
                 }
             }
+
+            Object.keys(options).forEach(key => formData.append(key, options[key]));
+
+            htmx.ajax('POST', '/translate', {
+                target: '#audioResult',
+                swap: 'innerHTML',
+                values: formData
+            });
         }
     </script>
 {% endblock %}
