@@ -30,10 +30,10 @@ def process_audio_request(
 ):
     target_language = targetLanguageOptions.replace("\\", "").replace("\"", "")
     source_language = sourceLanguageOptions.replace("\\", "").replace("\"", "")
-    logger.debug(f"Audio data: {audioData}")
+    logger.debug(audioData)
     return {
         "data": {
-            "input": audioData,
+            "input": audioData['file'],
             "task_string": task_string,
             "target_language": target_language,
             "source_language": source_language,

@@ -15,7 +15,6 @@
   <img src="/assets/microphone-off.svg" alt="Microphone Off" class="mx-auto" />
 </button>
 <div id="recordingResult" class="m-2">
-  <div id="result"></div>
 </div>
 
 {% endblock %}
@@ -27,6 +26,8 @@
 
   function getOptions() {
     return {
+      textInputArea:getElementById("textInputArea")?.value || "",
+      inputModeOptions: document.getElementById("inputModeOptions")?.value || "",
       outputModeOptions:
         document.getElementById("outputModeOptions")?.value || "",
       sourceLanguageOptions:
@@ -52,7 +53,7 @@
         mediaRecorder.onstop = async () => {
           const audioBlob = new Blob(audioChunks, { type: "audio/wav" });
           const formData = new FormData();
-          formData.append("audio_data", audioBlob, "recording.wav");
+          formData.append("audioData", audioBlob, "static/audio/output.wav");
 
           const options = getOptions();
           Object.keys(options).forEach((key) =>
@@ -97,7 +98,7 @@
   });
 
   function handleTranslationResult(htmlResponse) {
-    const resultDiv = document.getElementById("result");
+    const resultDiv = document.getElementById("#audioOutputArea");
     resultDiv.innerHTML = htmlResponse;
 
     // Ensure the textarea is readonly

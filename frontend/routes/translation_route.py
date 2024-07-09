@@ -6,6 +6,7 @@ from .process_audio import process_audio_request, process_audio_response
 from .process_text import process_text_request, process_text_response
 from fastapi.templating import Jinja2Templates
 from typing import Optional
+from loguru import logger
 import requests
 
 from frontend.routes.audio_route import AUDIO_SOURCE
@@ -17,12 +18,12 @@ router = APIRouter()
 @router.post("/translate")
 async def get_translate(
     request: Request, 
-    textInputArea: Optional[str] = Form(default=''),
-    audioData: Optional[bytes] = Form(default=None),
-    inputModeOptions: str = Form(default=''),
-    outputModeOptions: str = Form(default=''),
-    sourceLanguageOptions: str = Form(default=''),
-    targetLanguageOptions: str = Form(default='')
+    textInputArea: Optional[str] = Form(...),
+    audioData=File(...),
+    inputModeOptions: str = Form(...),
+    outputModeOptions: str = Form(...),
+    sourceLanguageOptions: str = Form(...),
+    targetLanguageOptions: str = Form(...)
 ):
     print(f"Received form data: textInputArea={textInputArea}, inputModeOptions={inputModeOptions}, outputModeOptions={outputModeOptions}, sourceLanguageOptions={sourceLanguageOptions}, targetLanguageOptions={targetLanguageOptions}")
     task_string = ""        
@@ -36,13 +37,12 @@ async def get_translate(
             task_string = "text2text"
         elif outputModeOptions == "audio":
             task_string = "text2speech"
-    else:
-        task_string = "text2text"  # Default fallback
     data_request = None
     if task_string.startswith("speech"):
-        data_request = process_audio_request(audioData, task_string, sourceLanguageOptions, targetLanguageOptions)
+        data_request = process_audio_request(audioData.file, task_string, sourceLanguageOptions, targetLanguageOptions)
     else:
         data_request = process_text_request(textInputArea, task_string, targetLanguageOptions, sourceLanguageOptions)
+    logger.debug(audioData)
     print(f"Sending request: {data_request}")
     url = "https://miner-cellium.ngrok.app/modules/translation/process"
     translation_request = data_request
