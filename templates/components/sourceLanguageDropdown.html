@@ -1,8 +1,16 @@
 {% block sourceLanguageDropdown %}
-<select id="sourceLanguageOptions"
-  class="inline-flex items-center bg-indigo-300 hover:bg-indigo-400 dark:bg-indigo-500 px-4 py-2 rounded w-full font-semibold text-gray-200 dark:text-white"
-  hx-get="/languages" hx-trigger="load" hx-target="#sourceLanguageOptions" default="English" value="">
-  <option value="">Select Source Lanaguage</option>
-  <!-- Options will be injected here -->
-</select>
+<div class="flex rounded flex-row px-2 py-2 justify-center items-center ring-1 dark:ring-0 bg-white/80 hover:bg-blue-50/80 dark:hover:bg-indigo-600/80 dark:bg-indigo-700/80 font-semibold text-blue-950 dark:text-white">
+  <p class="text-lg">Source:&nbsp;</p>
+  <select
+    id="sourceLanguageOptions"
+    class="inline-flex items-center w-full bg-transparent"
+    hx-get="/languages"
+    hx-trigger="load"
+    hx-target="#sourceLanguageOptions"
+    default="English"
+    value=""
+  >
+    <!-- Options will be injected here -->
+  </select>
+</div>
 {% endblock %}

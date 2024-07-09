@@ -15,7 +15,7 @@ TASK_STRINGS = [
 ]
 
 TARGET_LANGUAGES = [
-    "--Select Language--",
+    "Select Language",
     "English",
     "Cantonese",
     "French",

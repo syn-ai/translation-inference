@@ -1,16 +1,22 @@
 {% block translateButton %}
 <div class="w-full container">
-  <div class="flex flex-wrap justify-evenly content-center bg-slate-900">
-      <div class="inline-flex relative group">
-    <div
-    class="absolute -inset-px group-hover:-inset-1 bg-gradient-to-r from-[#44BCFF] via-[#FF44EC] to-[#FF675E] opacity-70 group-hover:opacity-100 blur-lg transitiona-all animate-tilt duration-1000 group-hover:duration-200">
+  <div
+    class="flex flex-wrap justify-evenly content-center"
+  >
+    <div class="inline-flex relative group">
+      <div
+        class="absolute -inset-px group-hover:-inset-1 bg-gradient-to-r from-[#44BCFF] via-[#FF44EC] to-[#FF675E] opacity-70 group-hover:opacity-100 blur-lg transitiona-all animate-tilt duration-1000 group-hover:duration-200"
+      ></div>
+      <button
+        id="translateButton"
+        href="#translateButton"
+        title="Translate"
+        class="inline-flex relative justify-center items-center bg-white dark:bg-black px-8 py-4 rounded-md font-bold font-pj text-lg text-blue-950 dark:text-white transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900"
+        role="button"
+      >
+        Translate
+      </button>
     </div>
-      <button id="translateButton"
-        href="#translateButton" title="Translate"
-        class="inline-flex relative justify-center items-center bg-black px-8 py-4 rounded-md font-bold font-pj text-lg text-white transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900"
-        role="button">Translate
-  </button>
-      </div>
   </div>
 </div>
 {% endblock %}
