@@ -5,16 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Translations</title>
     <script src="https://unpkg.com/htmx.org"></script>
-    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.4.23/dist/full.min.css" rel="stylesheet" type="text/css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/daisyui@4.4.23/dist/full.min.css"
+      rel="stylesheet"
+      type="text/css"
+    />
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   </head>
 
   <body>
-    <div id="content" class="absolute flex flex-col justify-center align-items-middle bg-gradient-to-r from-[#44BCFF] via-[#FF44EC] to-[#FF675E] opacity-70 opacity-70 p-4 m-4 rounded-lg">
-      {% block content %}
-
-      {% endblock %}
+    <div class="flex justify-center">
+      <div
+        id="content"
+        class="flex flex-col justify-center align-items-middle bg-gradient-to-r from-[#44BCFF] via-[#FF44EC] to-[#FF675E] opacity-70 opacity-70 p-4 m-4 rounded-lg"
+        style="max-width: 600px"
+      >
+        {% block content %} {% endblock %}
+      </div>
     </div>
   </body>
 </html>

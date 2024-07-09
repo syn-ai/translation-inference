@@ -1,75 +1,89 @@
 <!-- component_library/templates/components/audio_chat.html -->
-{% extends "shared/_base.html" %}
-{% block content %}
-<div class="flex flex-wrap justify-evenly content-center bg-slate-900 p-4 rounded-lg w-full h-full">
-    <h1 class="flex flex-col justify-center mb-4 font-bold text-2xl text-white item">Translations</h1>
-    <div class="flex flex-col sm:flex-row justify-center items-center mx-auto p-4 rounded-sm w-full container gap-2">
-        <div class="flex flex-col">
-            <p class="p-2 w-1/4 text-l text-white font-bold">Source</p>
-            {% block sourceLanguageDropdown %}
-            {% include "components/sourceLanguageDropdown.html" %}
-            {% endblock %}
-        </div>
-        <div class="flex flex-col">
-            <p class="p-2 w-1/4 text-l text-white justify-center font-bold">Target</p>
-            {% block targetLangaugeDropdown %}
-            {% include "components/targetLanguageDropdown.html" %}
-            {% endblock %}
-        </div>
+{% extends "shared/_base.html" %} {% block content %}
+<div
+  class="flex flex-col justify-evenly content-center bg-slate-900 p-4 rounded-lg w-full h-full"
+>
+  <h1 class="font-bold text-2xl text-white item text-center">
+    Transcription Subtensor
+  </h1>
+  <hr class="border-t my-4" style="border-image: linear-gradient(to right, #44BCFF, #FF44EC, #FF675E) 1;">
+  <div
+    class="flex flex-col sm:flex-row justify-center items-center mx-auto p-4 rounded-sm w-full container gap-2"
+  >
+    <div class="flex flex-col">
+      <p class="p-2 w-1/4 text-l text-white font-bold">Source</p>
+      {% block sourceLanguageDropdown %} {% include
+      "components/sourceLanguageDropdown.html" %} {% endblock %}
     </div>
-    <div id="inputContainer" class="flex flex-col justify-center mb-2 w-full">
-        <p class="mb-2 p-1 text-l text-white"><b>Input</b></p>
-        {% block inputModeDropdown %}
-        {% include "components/inputModeDropdown.html" %}
-        {% endblock %}
-        {% block inputContent %}
-        {% include "components/inputContent.html" %}
-        {% endblock %}
-        <div id="outputContainer" class="flex flex-col justify-center mb-2 w-full">
-            <p class="mb-2 p-1 text-l text-white"><b>Output</b></p>
-            {% block outputModeDropdown %}
-            {% include "components/outputModeDropdown.html" %}
-            {% endblock %}
-            {% block outputContent %}
-            {% include "components/outputContent.html" %}
-            {% endblock %}
-        </div>
+    <div class="flex flex-col">
+      <p class="p-2 w-1/4 text-l text-white justify-center font-bold">Target</p>
+      {% block targetLangaugeDropdown %} {% include
+      "components/targetLanguageDropdown.html" %} {% endblock %}
     </div>
-    <div id="translateButtonContainer" class="bg-slate-900 mb-2 p-2">
-        {% block translateButton %}
-        {% include "components/translateButton.html" %}
-        {% endblock %}
+  </div>
+  <div id="inputContainer" class="flex flex-col justify-center mb-2 w-full">
+    <p class="mb-2 p-1 text-l text-white"><b>Input</b></p>
+    {% block inputModeDropdown %} {% include "components/inputModeDropdown.html"
+    %} {% endblock %} {% block inputContent %} {% include
+    "components/inputContent.html" %} {% endblock %}
+    <div id="outputContainer" class="flex flex-col justify-center mb-2 w-full">
+      <p class="mb-2 p-1 text-l text-white"><b>Output</b></p>
+      {% block outputModeDropdown %} {% include
+      "components/outputModeDropdown.html" %} {% endblock %} {% block
+      outputContent %} {% include "components/outputContent.html" %} {% endblock
+      %}
     </div>
+  </div>
+  <div id="translateButtonContainer" class="bg-slate-900 mb-2 p-2">
+    {% block translateButton %} {% include "components/translateButton.html" %}
+    {% endblock %}
+  </div>
 </div>
 <script>
-    document.getElementById('translateButton').addEventListener('click', function (event) {
-        event.preventDefault();
+  document
+    .getElementById("translateButton")
+    .addEventListener("click", function (event) {
+      event.preventDefault();
 
-        var textInputArea = document.getElementById('textInputArea') ? document.getElementById('textInputArea').value : '';
-        var inputModeOptions = document.getElementById('inputModeOptions') ? document.getElementById('inputModeOptions').value : '';
-        var outputModeOptions = document.getElementById('outputModeOptions') ? document.getElementById('outputModeOptions').value : '';
-        var sourceLanguageOptions = document.getElementById('sourceLanguageOptions') ? document.getElementById('sourceLanguageOptions').value : '';
-        var targetLanguageOptions = document.getElementById('targetLanguageOptions') ? document.getElementById('targetLanguageOptions').value : '';
+      var textInputArea = document.getElementById("textInputArea")
+        ? document.getElementById("textInputArea").value
+        : "";
+      var inputModeOptions = document.getElementById("inputModeOptions")
+        ? document.getElementById("inputModeOptions").value
+        : "";
+      var outputModeOptions = document.getElementById("outputModeOptions")
+        ? document.getElementById("outputModeOptions").value
+        : "";
+      var sourceLanguageOptions = document.getElementById(
+        "sourceLanguageOptions"
+      )
+        ? document.getElementById("sourceLanguageOptions").value
+        : "";
+      var targetLanguageOptions = document.getElementById(
+        "targetLanguageOptions"
+      )
+        ? document.getElementById("targetLanguageOptions").value
+        : "";
 
-        console.log('Sending translation request:', {
-            textInputArea,
-            inputModeOptions,
-            outputModeOptions,
-            sourceLanguageOptions,
-            targetLanguageOptions
-        });
+      console.log("Sending translation request:", {
+        textInputArea,
+        inputModeOptions,
+        outputModeOptions,
+        sourceLanguageOptions,
+        targetLanguageOptions,
+      });
 
-        htmx.ajax('POST', '/translate', {
-            target: '#outputContent',
-            swap: 'innerHTML',
-            values: {
-                textInputArea: textInputArea,
-                inputModeOptions: inputModeOptions,
-                outputModeOptions: outputModeOptions,
-                sourceLanguageOptions: sourceLanguageOptions,
-                targetLanguageOptions: targetLanguageOptions
-            }
-        });
+      htmx.ajax("POST", "/translate", {
+        target: "#outputContent",
+        swap: "innerHTML",
+        values: {
+          textInputArea: textInputArea,
+          inputModeOptions: inputModeOptions,
+          outputModeOptions: outputModeOptions,
+          sourceLanguageOptions: sourceLanguageOptions,
+          targetLanguageOptions: targetLanguageOptions,
+        },
+      });
     });
 </script>
 {% endblock %}
