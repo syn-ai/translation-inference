@@ -13,7 +13,7 @@
   style="width: 128px; height: 128px;"
   hidden
 >
-  <img src="/assets/microphone-off.svg" alt="Microphone Off" class="mx-auto" />
+  <img src="/assets/microphone-off.svg" alt="Microphone Off" class="relative mx-auto inset-0 -left-[1px]" />
 </button>
 <div id="recordingResult" class="m-2">
 </div>
@@ -41,6 +41,9 @@
     document
         .getElementById("startRecording")
         .addEventListener("click", async () => {
+            document.getElementById("startRecording").classList.add("hidden");
+            document.getElementById("stopRecording").classList.remove("hidden");
+
             try {
                 const stream = await navigator.mediaDevices.getUserMedia({
                     audio: true,
@@ -84,9 +87,7 @@
                 audioChunks = [];
             };
         
-            mediaRecorder.start();
-            document.getElementById("startRecording").hidden = true;
-            document.getElementById("stopRecording").hidden = false;      
+            mediaRecorder.start();    
         } catch (error) {
             console.error("Error accessing microphone:", error);
             document.getElementById("result").textContent =
@@ -96,8 +97,8 @@
 
     document.getElementById("stopRecording").addEventListener("click", () => {
         mediaRecorder.stop();
-        document.getElementById("startRecording").hidden = false;
-        document.getElementById("stopRecording").hidden = true;
+        document.getElementById("startRecording").classList.remove("hidden");
+        document.getElementById("stopRecording").classList.add("hidden");
     });
 
     function handleTranslationResult(htmlResponse) {
