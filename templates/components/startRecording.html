@@ -26,10 +26,10 @@
 
     function getOptions() {
         return {
-        textInputArea:getElementById("textInputArea")?.value || "",
-        inputModeOptions: getElementById("#inputModeOptions")?.value || "",
+        textInputArea: document.getElementById("textInputArea")?.value || "",
+        inputModeOptions: document.getElementById("inputModeOptions")?.value || "",
         outputModeOptions:
-            document.getElementById("#outputModeOptions")?.value || "",
+            document.getElementById("outputModeOptions")?.value || "",
         sourceLanguageOptions:
             document.getElementById("sourceLanguageOptions")?.value || "",
         targetLanguageOptions:
@@ -56,6 +56,7 @@
             formData.append("audioData", audioBlob, "static/audio/output.wav");
 
             const options = getOptions();
+            console.log(options);
             Object.keys(options).forEach((key) =>
                 formData.append(key, options[key])
             );

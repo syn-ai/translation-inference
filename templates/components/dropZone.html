@@ -40,14 +40,6 @@
             handleFiles(e.target.files);
         });
 
-        function getOptions() {
-            return {
-                outputModeOptions: document.getElementById('outputModeOptions')?.value || '',
-                sourceLanguageOptions: document.getElementById('sourceLanguageOptions')?.value || '',
-                targetLanguageOptions: document.getElementById('targetLanguageOptions')?.value || ''
-            };
-        }
-
         function handleFiles(files) {
             const formData = new FormData(dropZone);
             const options = getOptions();
