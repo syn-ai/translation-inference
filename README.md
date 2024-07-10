@@ -2,7 +2,7 @@
 
 ### How to Run
 Execute the following series of commands and you may find happiness:
-```
+```bash
 git clone https://github.com/Agent-Artificial/translation-frontend.git
 cd translation-frontend # Clone and cd into this repository
 poetry install # Install dependencies with poetry
