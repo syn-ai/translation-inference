@@ -1,11 +1,11 @@
 {% block targetLanguageDropdown %}
 <div
-  class="flex rounded flex-row px-2 py-2 justify-center items-center ring-1 dark:ring-0 bg-white/80 hover:bg-blue-50/80 dark:hover:bg-indigo-600/80 dark:bg-indigo-700/80 font-semibold text-blue-950 dark:text-white"
+  class="flex rounded flex-row px-2 py-2 justify-center items-center ring-1 dark:ring-cyan-100/20  bg-white/80 hover:bg-blue-50/80 dark:hover:bg-slate-950/80 dark:bg-slate-900/80 font-semibold text-blue-950 dark:text-white"
 >
   <p class="text-lg">Target:&nbsp;</p>
   <select
     id="targetLanguageOptions"
-    class="inline-flex items-center w-full bg-transparent"
+    class="inline-flex items-center w-full bg-transparent dark:bg-slate-900/70 dark:hover:bg-slate-950/70"
     hx-get="/languages"
     hx-trigger="load"
     hx-target="#targetLanguageOptions"
