@@ -56,6 +56,13 @@
 
             mediaRecorder.onstop = async () => {
                 const audioBlob = new Blob(audioChunks, { type: "audio/wav" });
+
+                const audioElement = document.getElementById("resultingAudio");
+                audioElement.controls = true;
+                const audioURL = window.URL.createObjectURL(audioBlob);
+                audioElement.src = audioURL;
+                console.log("recorder stopped");
+
                 const formData = new FormData();
 
                 formData.append("audioData", audioBlob);
@@ -80,7 +87,7 @@
                     handleTranslationResult(htmlResponse);
                 } catch (error) {
                     console.error("Error:", error);
-                    document.getElementById("result").textContent =
+                    document.getElementById("recordingResult").textContent =
                     "Error occurred during translation.";
                 }
                     
@@ -90,7 +97,7 @@
             mediaRecorder.start();    
         } catch (error) {
             console.error("Error accessing microphone:", error);
-            document.getElementById("result").textContent =
+            document.getElementById("recordingResult").textContent =
             "Error accessing microphone.";
         }
 });

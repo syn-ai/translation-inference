@@ -1,6 +1,6 @@
 {% block audioInput %}
 <div class="col-span-8 mx-auto p-4 w-full container">
-    <div id="audioInputContainer">
+    <div id="audioInputContainer" class="flex flex-col justify-center">
         <div class="flex justify-center items-center sm:flex-row-reverse flex-row gap-2">
             <div class="flex justify-center items-center basis-1/2 sm:basis-2/3">
                 {% block dropZone %}
@@ -12,6 +12,9 @@
                     {% include "components/startRecording.html" %}
                 {% endblock %}
             </div>
+        </div>
+        <div class="flex flex-row justify-center pt-2">
+            <audio id="resultingAudio" />
         </div>
     </div>
   </div>

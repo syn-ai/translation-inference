@@ -27,12 +27,8 @@ async def get_translate(
 ):
     if audioData:
         try:
-            # Read the audio file data
-            audio_content = audioData.file.read()
-            # Encode the audio data to base64 to prepare for processing
-            audio_base64 = base64.b64encode(audio_content).decode('utf-8')
-            logger.info("Audio data processed and encoded to base64.")
-            print(f"Base64 encoded audio data: {audio_base64}")
+            with open(AUDIO_SOURCE, "wb") as f:
+                f.write(await audioData.read())
         except Exception as e:
             logger.error(f"Failed to process audio data: {str(e)}")
             raise HTTPException(status_code=500, detail="Failed to process audio data")
@@ -55,28 +51,36 @@ async def get_translate(
             task_string = "text2text"
         elif outputModeOptions == "audio":
             task_string = "text2speech"
+            
+    logger.debug(f"task_string: {task_string}")
 
     data_request = None
     if task_string.startswith("speech"):
+        logger.debug(f"Processing Audio Request")
         data_request = process_audio_request(audioData.file, task_string, sourceLanguageOptions, targetLanguageOptions)
     else:
+        logger.debug(f"Processing Text Request")
         data_request = process_text_request(textInputArea, task_string, targetLanguageOptions, sourceLanguageOptions)
-    logger.debug(audioData)
+    
     print(f"Sending request: {data_request}")
     url = "https://miner-cellium.ngrok.app/modules/translation/process"
     translation_request = data_request
         
     try:
+        logger.info(f"Forwarding to miner...")
         response = requests.post(url, json=translation_request, timeout=30)
         response.raise_for_status()
-        print(response.content)
-        print(f"Response status: {response.status_code}")
-        print(f"Response content: {response.text[:1000]}")  # Print first 1000 characters of response
+        logger.info(f"---- Miner Response ----")
+        logger.info(f"\tResponse: {response.content}")
+        logger.info(f"\tResponse status: {response.status_code}")
+        logger.info(f"\tResponse content: {response.text[:1000]}")  # Print first 1000 characters of response
         
         if task_string.endswith("text"):
+            logger.info(f"Returning text response")
             return process_text_response(request, response, templates)
         else:
+            logger.info(f"Returning audio response")
             return process_audio_response(request, response, templates)
     except requests.RequestException as e:
-        print(f"Request failed: {str(e)}")
+        logger.error(f"Request failed: {str(e)}")
         raise HTTPException(status_code=500, detail=f"Translation service error: {str(e)}")
