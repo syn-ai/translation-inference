@@ -58,12 +58,12 @@
                 const audioBlob = new Blob(audioChunks, { type: "audio/wav" });
                 const formData = new FormData();
 
-                formData.append("audioData", audioBlob, "static/audio/output.wav");
+                formData.append("audioData", audioBlob);
                 
                 const options = getOptions();
                 console.log(options);
                 Object.keys(options).forEach((key) =>
-                formData.append(key, options[key])
+                    formData.append(key, options[key])
                 );
                 
                 try {

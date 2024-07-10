@@ -1,7 +1,7 @@
 import base64
 import json
 import binascii
-from fastapi import APIRouter, Request, Form, HTTPException, File
+from fastapi import APIRouter, Request, Form, HTTPException, File, UploadFile
 from .process_audio import process_audio_request, process_audio_response
 from .process_text import process_text_request, process_text_response
 from fastapi.templating import Jinja2Templates
@@ -19,12 +19,24 @@ router = APIRouter()
 async def get_translate(
     request: Request, 
     textInputArea: Optional[str] = Form(default=None),
-    audioData=File(default=None),
+    audioData: UploadFile = File(default=None),
     inputModeOptions: str = Form(default=None),
     outputModeOptions: str = Form(...),
     sourceLanguageOptions: str = Form(...),
     targetLanguageOptions: str = Form(...)
 ):
+    if audioData:
+        try:
+            # Read the audio file data
+            audio_content = audioData.file.read()
+            # Encode the audio data to base64 to prepare for processing
+            audio_base64 = base64.b64encode(audio_content).decode('utf-8')
+            logger.info("Audio data processed and encoded to base64.")
+            print(f"Base64 encoded audio data: {audio_base64}")
+        except Exception as e:
+            logger.error(f"Failed to process audio data: {str(e)}")
+            raise HTTPException(status_code=500, detail="Failed to process audio data")
+    
     print(f"Received form data: textInputArea={textInputArea}, inputModeOptions={inputModeOptions}, outputModeOptions={outputModeOptions}, sourceLanguageOptions={sourceLanguageOptions}, targetLanguageOptions={targetLanguageOptions}")
     task_string = ""        
     
