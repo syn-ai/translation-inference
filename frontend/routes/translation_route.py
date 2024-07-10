@@ -25,14 +25,6 @@ async def get_translate(
     sourceLanguageOptions: str = Form(...),
     targetLanguageOptions: str = Form(...)
 ):
-    if audioData:
-        try:
-            with open(AUDIO_SOURCE, "wb") as f:
-                f.write(await audioData.read())
-        except Exception as e:
-            logger.error(f"Failed to process audio data: {str(e)}")
-            raise HTTPException(status_code=500, detail="Failed to process audio data")
-    
     print(f"Received form data: textInputArea={textInputArea}, inputModeOptions={inputModeOptions}, outputModeOptions={outputModeOptions}, sourceLanguageOptions={sourceLanguageOptions}, targetLanguageOptions={targetLanguageOptions}")
     task_string = ""
     
@@ -57,6 +49,13 @@ async def get_translate(
     data_request = None
     if task_string.startswith("speech"):
         logger.debug(f"Processing Audio Request")
+        if audioData:
+            try:
+                with open(AUDIO_SOURCE, "wb") as f:
+                    f.write(await audioData.read())
+            except Exception as e:
+                logger.error(f"Failed to process audio data: {str(e)}")
+                raise HTTPException(status_code=500, detail="Failed to process audio data")
         data_request = process_audio_request(task_string, sourceLanguageOptions, targetLanguageOptions)
     else:
         logger.debug(f"Processing Text Request")
@@ -70,10 +69,10 @@ async def get_translate(
         logger.info(f"Forwarding to miner...")
         response = requests.post(url, json=translation_request, timeout=30)
         response.raise_for_status()
-        logger.info(f"---- Miner Response ----")
-        logger.info(f"\tResponse: {response.content}")
-        logger.info(f"\tResponse status: {response.status_code}")
-        logger.info(f"\tResponse content: {response.text[:1000]}")  # Print first 1000 characters of response
+        # logger.info(f"---- Miner Response ----")
+        # logger.info(f"\tResponse: {response.content}")
+        # logger.info(f"\tResponse status: {response.status_code}")
+        # logger.info(f"\tResponse content: {response.text[:1000]}")  # Print first 1000 characters of response
         
         if task_string.endswith("text"):
             logger.info(f"Returning text response")
