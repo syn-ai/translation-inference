@@ -34,7 +34,7 @@ async def get_translate(
             raise HTTPException(status_code=500, detail="Failed to process audio data")
     
     print(f"Received form data: textInputArea={textInputArea}, inputModeOptions={inputModeOptions}, outputModeOptions={outputModeOptions}, sourceLanguageOptions={sourceLanguageOptions}, targetLanguageOptions={targetLanguageOptions}")
-    task_string = ""        
+    task_string = ""
     
     if not inputModeOptions:
         if outputModeOptions == "text":

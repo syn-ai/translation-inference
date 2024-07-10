@@ -10,7 +10,7 @@ from frontend.routes.process_text import process_text_response
 router = APIRouter()
 templates = Jinja2Templates(directory="templates")
 
-AUDIO_SOURCE = "static/audio/output.wav"
+AUDIO_SOURCE = "output/output.wav"
 
 @router.post("/uploadAudio")
 async def send_audio(
