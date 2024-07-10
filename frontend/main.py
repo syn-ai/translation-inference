@@ -13,7 +13,7 @@ from .routes.translation_route import router as translation_router
 
 app = FastAPI()
 
-app.mount("/static", StaticFiles(directory="static"), name="static")
+app.mount("/output", StaticFiles(directory="output"), name="output")
 app.mount("/assets", StaticFiles(directory="assets"), name="assets")
 
 app.add_middleware(
