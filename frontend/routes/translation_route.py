@@ -57,7 +57,7 @@ async def get_translate(
     data_request = None
     if task_string.startswith("speech"):
         logger.debug(f"Processing Audio Request")
-        data_request = process_audio_request(audioData.file, task_string, sourceLanguageOptions, targetLanguageOptions)
+        data_request = process_audio_request(task_string, sourceLanguageOptions, targetLanguageOptions)
     else:
         logger.debug(f"Processing Text Request")
         data_request = process_text_request(textInputArea, task_string, targetLanguageOptions, sourceLanguageOptions)
