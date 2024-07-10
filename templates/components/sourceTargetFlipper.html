@@ -1,6 +1,6 @@
 {% block sourceTargetFlipper %}
 <button id="swapButton" width="64px" height="64px" class="ring-1 dark:ring-cyan-100/20  bg-white/80 hover:bg-blue-50/80 dark:hover:bg-slate-950/80 dark:bg-slate-900/80 backdrop-blur-sm text-blue-950 dark:text-white font-bold py-2 px-4 rounded-xl">
-  <img src="assets/swap.svg" alt="Swap Button Icon" width="48px" height="48px" class="rotate-90 sm:rotate-0 invert dark:invert-0" />
+  <img src="assets/swap.svg" alt="Swap Button Icon" width="48px" height="48px" class="transition-all rotate-90 sm:rotate-0 invert dark:invert-0" />
 </button>
 <script>
 document.getElementById("swapButton").addEventListener("click", function() {
@@ -9,6 +9,11 @@ document.getElementById("swapButton").addEventListener("click", function() {
   var temp = sourceSelect.value;
   sourceSelect.value = targetSelect.value;
   targetSelect.value = temp;
+
+  // Rotate the button icon 180 degrees
+  var img = this.querySelector('img');
+  img.classList.toggle('-rotate-90');
+  img.classList.toggle('sm:-rotate-180')
 });
 </script>
 {% endblock %}
