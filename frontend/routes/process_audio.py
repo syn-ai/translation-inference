@@ -4,7 +4,6 @@ import struct
 import io
 import base64
 import json
-import torch
 from loguru import logger
 from requests import Request, Response
 from fastapi.templating import Jinja2Templates
@@ -55,27 +54,3 @@ def process_audio_response(
             "audio_url": AUDIO_SOURCE
         },
     )
-    
-    
-def speech_output_to_base64(speech_output) -> str:
-    # Convert audio tensors to bytes
-    audio_bytes_list = []
-    for audio_wav in speech_output.audio_wavs:
-        buffer = io.BytesIO()
-        torch.save(audio_wav, buffer)
-        audio_bytes_list.append(buffer.getvalue())
-
-    # Create a dictionary with all the data
-    data_dict = {
-        "units": speech_output.units,
-        "audio_wavs": audio_bytes_list,
-        "sample_rate": speech_output.sample_rate
-    }
-
-    # Convert the dictionary to JSON
-    json_data = json.dumps(data_dict)
-
-    # Encode the JSON string to bytes and then to base64
-    base64_encoded = base64.b64encode(json_data.encode('utf-8')).decode('utf-8')
-
-    return base64_encoded
