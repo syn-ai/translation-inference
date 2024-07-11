@@ -51,10 +51,8 @@ async def get_translate(
     data_request = None
     if task_string.startswith("speech"):
         if audioData:
-            audio_data = await audioData.read()
-        logger.debug("Processing Audio Request")       
-        data_request = process_audio_request(
-            audio_data, task_string, sourceLanguageOptions, targetLanguageOptions
+            data_request = await process_audio_request(
+                audioData, task_string, sourceLanguageOptions, targetLanguageOptions
         )
     else:
         data_request = process_text_request(
