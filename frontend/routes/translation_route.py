@@ -4,11 +4,7 @@ from .process_text import process_text_request, process_text_response
 from fastapi.templating import Jinja2Templates
 from typing import Optional
 from loguru import logger
-from pathlib import Path
-import torchaudio
-import torch
 import requests
-from pydub import AudioSegment
 
 templates = Jinja2Templates(directory="templates")
 
@@ -59,7 +55,7 @@ async def get_translate(
             textInputArea, task_string, targetLanguageOptions, sourceLanguageOptions
         )
 
-    logger.debug(f"Data Request: {data_request}")
+    # logger.debug(f"Data Request: {data_request}")
     url = "https://miner-cellium.ngrok.app/modules/translation/process"
     translation_request = data_request
 

@@ -1,11 +1,11 @@
 services:
   app:
-    image: Agent-Artificial/translation-frontend:dev
+    image: agent-artificial/translation-frontend:dev
     build:
       context: .
     ports:
       - "8000:8000"
     volumes:
-      - ./output:/app/output
+      - ./static:/app/static
     environment:
       - ENV=development

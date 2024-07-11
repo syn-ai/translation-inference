@@ -3,7 +3,7 @@ import base64
 from loguru import logger
 from requests import Request
 from fastapi.templating import Jinja2Templates
-from fastapi import UploadFile, File, HTTPException
+from fastapi import Response, UploadFile, File, HTTPException
 from pathlib import Path
 from pydub.utils import mediainfo
 from pydub import AudioSegment
@@ -36,15 +36,17 @@ async def process_audio_request(
 
 
 def process_audio_response(
-    response: str,
+    response: Response,
     request: Request,
     templates: Jinja2Templates    
 ):
     logger.info("Processing Audio Response")
-    logger.debug(f"response: {response}")
+    logger.debug(f"response: {response.text}")
     audio_path = "static/audio/audio_request.wav"
-    content = base64.b64decode(response.text.encode("utf-8"))
-    audio = AudioSegment.from_file(io.BytesIO(content), format="wav")
+    base64_encoded = response.text.encode("utf-8")
+    content = base64.b64decode(base64_encoded + b'==')
+    content_bytes = io.BytesIO(content)
+    audio = AudioSegment.from_file(content_bytes)
     audio.export(audio_path, format="wav")
         
     return templates.TemplateResponse(

@@ -19,8 +19,7 @@ ENV dev=${dev} \
   # Make sure to update it!
 
 # System deps:
-RUN apt-get update && apt-get install -y curl
-
+RUN apt-get update && apt-get install -y curl ffmpeg
 RUN curl -sSL https://install.python-poetry.org | python3 -
 ENV PATH=~/.local/share/pypoetry/venv/bin/poetry:$PATH
 
