@@ -1,32 +1,35 @@
-import json
-import binascii
 from fastapi import APIRouter, Request, Form, HTTPException, File, UploadFile
 from .process_audio import process_audio_request, process_audio_response
 from .process_text import process_text_request, process_text_response
 from fastapi.templating import Jinja2Templates
 from typing import Optional
 from loguru import logger
+from pathlib import Path
+import torchaudio
+import torch
 import requests
-
-from frontend.routes.audio_route import AUDIO_SOURCE
+from pydub import AudioSegment
 
 templates = Jinja2Templates(directory="templates")
 
 router = APIRouter()
 
+
 @router.post("/translate")
 async def get_translate(
-    request: Request, 
+    request: Request,
     textInputArea: Optional[str] = Form(default=None),
     audioData: UploadFile = File(default=None),
     inputModeOptions: str = Form(default=None),
     outputModeOptions: str = Form(...),
     sourceLanguageOptions: str = Form(...),
-    targetLanguageOptions: str = Form(...)
+    targetLanguageOptions: str = Form(...),
 ):
-    print(f"Received form data: textInputArea={textInputArea}, inputModeOptions={inputModeOptions}, outputModeOptions={outputModeOptions}, sourceLanguageOptions={sourceLanguageOptions}, targetLanguageOptions={targetLanguageOptions}")
+    print(
+        f"Received form data: textInputArea={textInputArea}, inputModeOptions={inputModeOptions}, outputModeOptions={outputModeOptions}, sourceLanguageOptions={sourceLanguageOptions}, targetLanguageOptions={targetLanguageOptions}"
+    )
     task_string = ""
-    
+
     if not inputModeOptions:
         if outputModeOptions == "text":
             task_string = "speech2text"
@@ -42,46 +45,39 @@ async def get_translate(
             task_string = "text2text"
         elif outputModeOptions == "audio":
             task_string = "text2speech"
-            
-    logger.debug(f"task_string: {task_string}")
 
+    logger.debug(f"task_string: {task_string}")
+    audio_data = None
     data_request = None
     if task_string.startswith("speech"):
-        logger.debug(f"Processing Audio Request")
         if audioData:
-            try:
-                with open(AUDIO_SOURCE, "wb") as f:
-                    f.write(await audioData.read())
-            except Exception as e:
-                logger.error(f"Failed to process audio data: {str(e)}")
-                raise HTTPException(status_code=500, detail="Failed to process audio data")
-        data_request = process_audio_request(task_string, sourceLanguageOptions, targetLanguageOptions)
+            audio_data = await audioData.read()
+        logger.debug("Processing Audio Request")       
+        data_request = process_audio_request(
+            audio_data, task_string, sourceLanguageOptions, targetLanguageOptions
+        )
     else:
-        logger.debug(f"Processing Text Request")
-        data_request = process_text_request(textInputArea, task_string, targetLanguageOptions, sourceLanguageOptions)
-    
-    print(f"Sending request: {data_request}")
+        data_request = process_text_request(
+            textInputArea, task_string, targetLanguageOptions, sourceLanguageOptions
+        )
+
+    logger.debug(f"Data Request: {data_request}")
     url = "https://miner-cellium.ngrok.app/modules/translation/process"
     translation_request = data_request
-        
+
     try:
-        logger.info(f"Forwarding to miner...")
-        response = requests.post(url, json=translation_request, timeout=30)
+        logger.info("Forwarding to miner...")
+        response = requests.post(url, json=translation_request, timeout=60)
         response.raise_for_status()
-        
-        # logger.info(f"---- Miner Response ----")
-        # logger.info(f"\tResponse: {response.content}")
-        # logger.info(f"\tResponse status: {response.status_code}")
-        # logger.info(f"\tResponse content: {response.text[:1000]}")  # Print first 1000 characters of response
-        
+
         if task_string.endswith("text"):
-            logger.info(f"Returning text response")
-            response = response.text
-            return process_text_response(request, response, templates)
+            logger.info(f"Returning text response {response.text[:50]}")
+            return process_text_response(response.text, request, templates)
         else:
-            response_path = "output/output.wav"
-            logger.info(f"Returning audio response")
-            return process_audio_response(request, response_path, templates)
+            logger.info(f"Returning audio response {response.text[:50]}")
+            return process_audio_response(response.text, request, templates)
     except requests.RequestException as e:
         logger.error(f"Request failed: {str(e)}")
-        raise HTTPException(status_code=500, detail=f"Translation service error: {str(e)}")
+        raise HTTPException(
+            status_code=500, detail=f"Translation service error: {str(e)}"
+        ) from e

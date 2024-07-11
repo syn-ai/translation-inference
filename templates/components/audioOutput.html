@@ -1,12 +1,13 @@
 {% block audioOutput %}
 <div class="col-span-8 mx-auto p-4 w-full container">
-    <div id="audioOutputContainer">
+    <div id="audioOutput">
         <div class="flex justify-center">
             <div id="audioOutputArea" class="w-full">
-                {% include "components/audioPlayer.html" %}
+                {% block audioPlayer %}
+                    {% include "components/audioPlayer.html" %}
+                {% endblock %}
             </div>
         </div>
-        <div id="audioResults"></div>
     </div>
 </div>
 {% endblock %}

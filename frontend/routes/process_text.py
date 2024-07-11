@@ -1,6 +1,6 @@
-import json
 from requests import Request, Response
 from fastapi.templating import Jinja2Templates
+import requests
 
 
 def process_text_request(
@@ -22,12 +22,13 @@ def process_text_request(
     
 
 def process_text_response(
+    text_response: str,
     request: Request,
-    response: Response,
     templates: Jinja2Templates
 ):  
-
-    data = response.replace("[CString(", "").replace(")]", "").replace("'", "").strip()
+    url = f"https://miner-cellium.ngrok.app/static/out/{text_response}"
+    response = requests.get(url, timeout=60)
+    data = response.text.replace("[CString(", "").replace(")]", "").replace("'", "").strip()
     return templates.TemplateResponse(
         "components/textOutput.html",
         {
