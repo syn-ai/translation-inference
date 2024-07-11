@@ -26,8 +26,8 @@ def process_text_response(
     response: Response,
     templates: Jinja2Templates
 ):  
-    json_data = json.loads(response.text)
-    data = json_data.replace("[CString(", "").replace(")]", "").replace("'", "").strip()
+
+    data = response.replace("[CString(", "").replace(")]", "").replace("'", "").strip()
     return templates.TemplateResponse(
         "components/textOutput.html",
         {

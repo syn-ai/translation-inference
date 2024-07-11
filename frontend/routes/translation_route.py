@@ -1,4 +1,3 @@
-import base64
 import json
 import binascii
 from fastapi import APIRouter, Request, Form, HTTPException, File, UploadFile
@@ -69,6 +68,7 @@ async def get_translate(
         logger.info(f"Forwarding to miner...")
         response = requests.post(url, json=translation_request, timeout=30)
         response.raise_for_status()
+        
         # logger.info(f"---- Miner Response ----")
         # logger.info(f"\tResponse: {response.content}")
         # logger.info(f"\tResponse status: {response.status_code}")
@@ -76,10 +76,12 @@ async def get_translate(
         
         if task_string.endswith("text"):
             logger.info(f"Returning text response")
+            response = response.text
             return process_text_response(request, response, templates)
         else:
+            response_path = "output/output.wav"
             logger.info(f"Returning audio response")
-            return process_audio_response(request, response, templates)
+            return process_audio_response(request, response_path, templates)
     except requests.RequestException as e:
         logger.error(f"Request failed: {str(e)}")
         raise HTTPException(status_code=500, detail=f"Translation service error: {str(e)}")

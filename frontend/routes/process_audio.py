@@ -1,8 +1,6 @@
-import base64
 import numpy
 import struct
 import io
-import base64
 import json
 from loguru import logger
 from requests import Request, Response
@@ -42,13 +40,10 @@ def process_audio_response(
     response: Response,
     templates: Jinja2Templates    
 ):
-    print(response.text)
-    with open(AUDIO_SOURCE, "wb") as f:
-        f.write(base64.decodebytes(response.text.encode('utf-8')))
     return templates.TemplateResponse(
         "components/audioOutput.html",
         {
             "request": request,
-            "audio_url": AUDIO_SOURCE
+            "audio_url": response
         },
     )
