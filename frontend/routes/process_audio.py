@@ -36,13 +36,14 @@ async def process_audio_request(
 
 
 def process_audio_response(
-    audio_data: str,
+    response: str,
     request: Request,
     templates: Jinja2Templates    
 ):
     logger.info("Processing Audio Response")
-    audio_path = "static/audio/audio_request.wav" 
-    content = base64.b64decode(audio_data.encode("utf-8"))
+    logger.debug(f"response: {response}")
+    audio_path = "static/audio/audio_request.wav"
+    content = base64.b64decode(response.text.encode("utf-8"))
     audio = AudioSegment.from_file(io.BytesIO(content), format="wav")
     audio.export(audio_path, format="wav")
         

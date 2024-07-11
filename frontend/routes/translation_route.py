@@ -70,10 +70,10 @@ async def get_translate(
 
         if task_string.endswith("text"):
             logger.info(f"Returning text response {response.text[:50]}")
-            return process_text_response(response.text, request, templates)
+            return process_text_response(response, request, templates)
         else:
             logger.info(f"Returning audio response {response.text[:50]}")
-            return process_audio_response(response.text, request, templates)
+            return process_audio_response(response, request, templates)
     except requests.RequestException as e:
         logger.error(f"Request failed: {str(e)}")
         raise HTTPException(
