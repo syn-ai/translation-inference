@@ -109,11 +109,11 @@
     });
 
     function handleTranslationResult(htmlResponse) {
-        const resultDiv = document.getElementById("#audioOutputArea");
+        const resultDiv = document.getElementById("audioOutputArea");
         resultDiv.innerHTML = htmlResponse;
 
         // Ensure the textarea is readonly
-        const textOutputArea = resultDiv.querySelector("#textOutputArea");
+        const textOutputArea = resultDiv.querySelector("textOutputArea");
         if (textOutputArea) {
             textOutputArea.readOnly = true;
         }
